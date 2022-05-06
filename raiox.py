@@ -38,7 +38,7 @@ theta_alpha_P3 = np.deg2rad(dataP3[:,2]/2)
 theta_beta_P3 = np.deg2rad(dataP3[:,1]/2)
 
 lambda_alpha = lambda_min(theta_alpha_P3)
-lambda_beta = lambda_min(theta_beta_P3)
+lambda_beta = np.sort(lambda_min(theta_beta_P3))
 
 #print(lambda_alpha)
 #print(lambda_beta)
@@ -48,20 +48,20 @@ lambda_beta = lambda_min(theta_beta_P3)
 def DH(U, lamb):
     return U*lamb
 
-def U(H, theta):
-    return c/(2*d*e*np.sin(theta))
-    
+
 popt, _ = opt.curve_fit(DH, 1/U_P3, lambda_beta)
-popt2, _2 = opt.curve_fit(U, theta_beta_P3, U_P3)
+
 
 print(popt)
-print(popt2, _2)
 
-plt.scatter(1/U_P3, lambda_beta)
-plt.plot(1/U_P3, lambda_beta)
+
+plt.scatter(1/U_P3, lambda_beta*1e2)
+#plt.plot(1/U_P3, lambda_beta)
 #plt.plot(DH(popt, lambda_beta))
-
+plt.xlabel('1/U (keV)')
+plt.ylabel('$\lambda$ (pm)')
 #plt.plot(1/(U_P3/constants.eV), DH(1/(U_P3/constants.eV), lambda_beta))
+plt.savefig('procedimento3-1.png')
 plt.show()
 
 
